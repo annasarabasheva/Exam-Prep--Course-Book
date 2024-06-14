@@ -12,14 +12,18 @@ exports.register = async (userData) =>  {
         throw new Error('User already exists')
     };
 
-    return User.create(userData)
+    const createdUser =  await User.create(userData); //THIS IS FOR AUTOLOGIN WHEN REGISTER IS DONE
+    const token = await generateToken(createdUser); //THIS IS FOR AUTOLOGIN WHEN REGISTER IS DONE
+
+    return token; //THIS IS FOR AUTOLOGIN WHEN REGISTER IS DONE
+
 };
 
 
 
 exports.login = async ({email, password}) => {
         //GET USER FROM  DB
-        const user = await User.findOne({email});
+        const user = await User.findOne(email);
         if (!user) {
             throw new Error('Username or password is invalid')
         }
@@ -30,16 +34,25 @@ exports.login = async ({email, password}) => {
             throw new Error('Username or password is invalid')
         }
 
-        //GENERATE TOKEN
-        const payload = {
-            _id: user._id,
-            username: user.username,
-            email: user.email,
-        }
-        const token = await jwt.sign(payload, SECRET, {expiresIn: '2h'});
+        //GENERETE AND RETURN TOKEN
 
-        //RETURN TOKEN
-        return token
+        const token = await generateToken(user);
+
+        return token;
 
 
-}
+};
+
+
+function generateToken(user) {
+    //GENERATE TOKEN
+    const payload = {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+    }
+    //RETURN TOKEN
+    return jwt.sign(payload, SECRET, {expiresIn: '2h'});
+
+   
+};
