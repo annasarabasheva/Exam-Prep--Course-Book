@@ -21,7 +21,7 @@
     * Add main layout
     * Add partials dir
 5. Database
-    * Install  mongoose
+    * Install mongoose
     * Setup db connection
     * Add user model
 6. Register

@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
+  
 
     },
     password: {
@@ -18,15 +19,6 @@ const userSchema = new mongoose.Schema({
 
     },
 });
-
-userSchema.virtual('rePassword')
-    .set(function(value) {
-        
-        if(value !== this.password) {
-            throw new Error('Password missmatch !')
-        }
-    })
-
 
 
 userSchema.pre('save', async function() {
