@@ -1,10 +1,11 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('../lib/jsonwebtoken');
-const SECRET = 'shjdsikwhjdwhnfkwfjlwfje/554adwsf'
+const {SECRET} = require('../config');
+
 
 exports.register = async (userData) =>  {
-    if(userData.password != userData.rePassword) {
+    if(userData.password !== userData.rePassword) {
         throw new Error('Password missmatch');
     }
     const user = await User.findOne({email: userData.email});
