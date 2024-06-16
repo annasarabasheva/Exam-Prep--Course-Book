@@ -5,9 +5,16 @@ const {getErrorMessage} = require('../utils/errorUtils')
 
 
 
-router.get('/catalog', (req, res) => {
-    res.render('catalog')
-})
+router.get('/catalog', async (req, res) => {
+    const courses = await courseService.getAll().lean(); //NE ZABRAVQI LEANNNNNNN MN VAJNO
+    res.render('catalog', {courses})
+});
+
+router.get('/catalog/:courseID/details', async (req, res) => {
+    const course = await courseService.getOne(req.params.courseID).lean();
+    res.render('details', {...course});
+}); 
+
 router.get('/create', isAuth, (req, res) => {
     res.render('create')
 });

@@ -11,4 +11,10 @@ exports.create = async (userID, courseData) => {
     //sega trqbva da napravim i obratnata relaciq kum usera i po-konkretni createdCourses:
 
     await User.findByIdAndUpdate(userID, {$push: {createdCourses: createdCourse._id}})
-}
+};
+
+
+exports.getAll = () => Course.find()
+
+
+exports.getOne = (courseID) => Course.findById(courseID).populate('owner');
