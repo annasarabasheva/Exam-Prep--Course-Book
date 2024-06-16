@@ -18,3 +18,12 @@ exports.getAll = () => Course.find()
 
 
 exports.getOne = (courseID) => Course.findById(courseID).populate('owner');
+
+exports.isOwner = (userID, courseID) => {
+    const course = Course.findById(courseID);
+    const user = User.findById(userID);
+    if(course.owner == user._id) {
+        return true
+    }
+    return console.log('try again')
+}

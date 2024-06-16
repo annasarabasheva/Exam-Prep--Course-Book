@@ -11,8 +11,10 @@ router.get('/catalog', async (req, res) => {
 });
 
 router.get('/catalog/:courseID/details', async (req, res) => {
-    const course = await courseService.getOne(req.params.courseID).lean();
-    res.render('details', {...course});
+    const course = await courseService.getOne(req.params.courseID).lean(); //NE ZABRAVQI LEANNN
+    const userID = req.user ? req.user._id : null;
+    const isOwner = course.owner._id == req.user?._id
+    res.render('details', {...course, isOwner, userID});
 }); 
 
 router.get('/create', isAuth, (req, res) => {
@@ -30,10 +32,8 @@ router.post('/create', isAuth, async (req, res) => {
 
 });
 
-
-
-
-
-
+router.get('/catalog/:courseID/edit', (req, res) => {
+    res.render('edit')
+});
 
 module.exports = router;
