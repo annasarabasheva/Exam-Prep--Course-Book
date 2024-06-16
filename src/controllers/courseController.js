@@ -32,8 +32,12 @@ router.post('/create', isAuth, async (req, res) => {
 
 });
 
-router.get('/catalog/:courseID/edit', (req, res) => {
-    res.render('edit')
+router.get('/catalog/:courseID/edit', async(req, res) => {
+    const course = await courseService.getOne(req.params.courseID)
+    res.render('edit', {course})
+   
 });
+
+
 
 module.exports = router;
