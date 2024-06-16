@@ -34,7 +34,7 @@ router.post('/login', async (req, res) => {
         res.cookie('auth', token);
         res.redirect('/');
     } catch(err) {
-        res.render('login', {error: getErrorMessage(err)});
+        res.render('login', {...loginData, error: getErrorMessage(err)});
 
     }
     

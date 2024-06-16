@@ -11,12 +11,20 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Email is required'],
   
-
     },
     password: {
         type: String,
         required: [true, 'Password is required'],
     },
+    signUpCourses: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'Course',
+    }],
+    createdCourses: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'Course',
+    }]
+
 });
 
 
