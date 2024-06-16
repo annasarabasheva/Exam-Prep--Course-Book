@@ -28,7 +28,17 @@ exports.authMiddleware = async (req, res, next) => {
 
 exports.isAuth = (req, res, next) => {
     if(!req.user) {
-        return res.redirect('/auth/login')
+        return res.redirect('/auth/login') //tova e za lognati potrebiteli
     }
     next()
-}
+};
+
+
+
+exports.isGuest = (req, res, next) => { //tova e proverka za nelognati potrebiteli (naprimer pri register ili login nie vse oshte sme guest taka che tam pravim tazi proverka, nqma logika da sme lognati)
+    if(req.user) {
+        return res.redirect('/')
+    }
+    next()
+};
+
