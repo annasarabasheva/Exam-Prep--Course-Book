@@ -19,3 +19,4 @@ exports.getAll = () => Course.find()
 
 exports.getOne = (courseID) => Course.findById(courseID).populate('owner');
 
+exports.delete= (courseID) => Course.findByIdAndDelete(courseID);

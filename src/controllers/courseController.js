@@ -32,8 +32,17 @@ router.post('/create', isAuth, async (req, res) => {
 
 });
 
+
+router.get('/catalog/:courseID/delete', async(req, res) => {
+    await courseService.delete(req.params.courseID).lean();
+    res.redirect('/courses/catalog')
+
+    
+   
+});
+
 router.get('/catalog/:courseID/edit', async(req, res) => {
-    const course = await courseService.getOne(req.params.courseID)
+    const course = await courseService.getOne(req.params.courseID).lean()
     res.render('edit', {course})
    
 });
