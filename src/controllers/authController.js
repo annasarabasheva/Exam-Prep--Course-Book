@@ -48,4 +48,9 @@ router.get('/logout', isAuth, (req, res) => {
     res.redirect('/');
 })
 
+
+router.get('/profile', (req, res) => {
+    res.render('profile')
+});
+
 module.exports = router;

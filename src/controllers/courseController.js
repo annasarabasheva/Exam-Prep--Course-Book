@@ -15,7 +15,7 @@ router.get('/catalog/:courseID/details', async (req, res) => {
     const isOwner = course.owner._id == req.user?._id;
 
     const signedUpUsers = course.signUpList.map(user => user.username).join(', ');
-    const alreadySigned = course.signUpList.some(user => user._id == req.user?._id);
+    const alreadySigned = course.signUpList.some(user => user._id == req.user?._id); //SOME E ZA ITERACIQ W LIST IT NESHTA
 
 
     res.render('details', { ...course, isOwner, signedUpUsers, alreadySigned });
@@ -24,14 +24,13 @@ router.get('/catalog/:courseID/details', async (req, res) => {
 
 
 router.get('/catalog/:courseID/signUP', async(req, res) => {
-   
+
     await courseService.signUP(req.params.courseID, req.user._id);
     res.redirect(`/courses/catalog/${req.params.courseID}/details`);
 
     
 
 });
-
 
 
 router.get('/create', isAuth, (req, res) => {
