@@ -34,16 +34,24 @@ router.post('/create', isAuth, async (req, res) => {
 
 
 router.get('/catalog/:courseID/delete', async(req, res) => {
-    await courseService.delete(req.params.courseID).lean();
+    const course = await courseService.getOne(req.params.courseID).lean(); //NE ZABRAVQI LEANNN
+    const isOwner = course.owner._id == req.user._id;
+    if(!isOwner) {
+        return res.redirect('/auth/login')
+    }
+    await courseService.delete(req.user._id, req.params.courseID);
     res.redirect('/courses/catalog')
 
-    
-   
+
 });
 
 router.get('/catalog/:courseID/edit', async(req, res) => {
-    const course = await courseService.getOne(req.params.courseID).lean()
-    res.render('edit', {course})
+    const course = await courseService.getOne(req.params.courseID).lean(); //NE ZABRAVQI LEANNN
+    const isOwner = course.owner._id == req.user._id;
+    if(!isOwner) {
+        return res.redirect('/auth/login')
+    }
+    res.render('edit', {...course})
    
 });
 
