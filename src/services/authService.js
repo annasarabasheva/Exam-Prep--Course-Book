@@ -45,6 +45,7 @@ exports.login = async ({email, password}) => {
 };
 
 
+
 function generateToken(user) {
     //GENERATE TOKEN
     const payload = {
