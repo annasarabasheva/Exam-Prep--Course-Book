@@ -56,5 +56,25 @@ router.get('/catalog/:courseID/edit', async(req, res) => {
 });
 
 
+router.post('/catalog/:courseID/edit', async(req, res) => {
+    const course = await courseService.getOne(req.params.courseID).lean(); //NE ZABRAVQI LEANNN
+    const isOwner = course.owner._id == req.user._id;
+    if(!isOwner) {
+        return res.redirect('/auth/login')
+    }
+
+    const editedData = req.body;
+    try {
+        await courseService.edit(course._id, editedData);
+        res.redirect(`/courses/catalog/${req.params.courseID}/details`)
+   
+    } catch(err) {
+        res.render('edit', {...editedData, error: getErrorMessage(err)});
+    
+    }
+    
+});
+
 
 module.exports = router;
+

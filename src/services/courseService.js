@@ -19,8 +19,13 @@ exports.getAll = () => Course.find()
 
 exports.getOne = (courseID) => Course.findById(courseID).populate('owner');
 
-exports.delete= async (userID, courseID) => {
+exports.delete = async (userID, courseID) => {
 
         const deletedCourse = await Course.findByIdAndDelete(courseID);
         await User.findByIdAndUpdate(userID, {$pull: {createdCourses: deletedCourse._id}})
     };
+
+exports.edit = async(courseID, editedData) => {
+
+    await Course.findByIdAndUpdate(courseID, editedData)
+}

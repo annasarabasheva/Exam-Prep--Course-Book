@@ -42,4 +42,3 @@ exports.isGuest = (req, res, next) => { //tova e proverka za nelognati potrebite
     next()
 };
 
-
