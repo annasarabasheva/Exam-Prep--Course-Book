@@ -10,26 +10,26 @@
                 <h3>Certificate: {{certificate}}</h3>
                 <h3>Price: €{{price}}</h3>
                 <h3>By: {{owner.email}}</h3>
-                <!--If there are sign up users-->
-                <h4>Signed By: cate.brown, nikolas.p</h4>
-                <!--If there are no sign up users-->
+                {{#if signUpList}}
+                <h4>Signed By: {{signedUpUsers}}</h4>
+                {{else}}
                 <h4>Nobody has signed in for this course yet</h4>
+                {{/if}}
             </div>
             <div class="details-container-content">
                 <p>{{description}}</p>
             </div>
-            <div class="btn-container">
-                {{#if isOwner}}
-                <a href="/courses/catalog/{{_id}}/edit">Edit</a>
-                <a href="/courses/catalog/{{_id}}/delete">Delete</a>
-                {{else}}
-                    {{#if userID}}
-                    <!-- logged in user who has not yet sign up for the course-->
-                    <a href="#">Sign up</a>
-                    <!-- logged in user who has already sign up for the course-->
+           <div class="btn-container">
+                {{#if isAuthenticated}}
+                    {{#if isOwner}}
+                    <a href="/courses/catalog/{{_id}}/edit">Edit</a>
+                    <a href="/courses/catalog/{{_id}}/delete">Delete</a>
+                    {{else if alreadySigned}}
                     <p class="sign-up">You've already signed up for this course!</p>
+                    {{else}}
+                    <a href="/courses/catalog/{{_id}}/signUP">Sign up</a>
                     {{/if}}
+              
                 {{/if}}
-
             </div>
         </div>

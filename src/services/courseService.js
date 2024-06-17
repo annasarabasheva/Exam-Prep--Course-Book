@@ -17,7 +17,7 @@ exports.create = async (userID, courseData) => {
 exports.getAll = () => Course.find()
 
 
-exports.getOne = (courseID) => Course.findById(courseID).populate('owner');
+exports.getOne = (courseID) => Course.findById(courseID).populate('owner').populate('signUpList');
 
 exports.delete = async (userID, courseID) => {
 
@@ -27,5 +27,13 @@ exports.delete = async (userID, courseID) => {
 
 exports.edit = async(courseID, editedData) => {
 
-    await Course.findByIdAndUpdate(courseID, editedData)
+    await Course.findByIdAndUpdate(courseID, editedData, {runValidators: true}); //ZADULJITELNO IZPOLZVAI runValidators; TRUE zashtoto inache validaciqta otpada i ne raboti
+};
+
+
+exports.signUP = async(courseID, userID) => {
+    await Course.findByIdAndUpdate(courseID, {$push: {signUpList: userID}});
+    await User.findByIdAndUpdate(userID, {$push: {signUpCourses: courseID}});
+
+
 }

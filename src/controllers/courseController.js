@@ -11,11 +11,30 @@ router.get('/catalog', async (req, res) => {
 });
 
 router.get('/catalog/:courseID/details', async (req, res) => {
-    const course = await courseService.getOne(req.params.courseID).lean(); //NE ZABRAVQI LEANNN
+    const course = await courseService.getOne(req.params.courseID).lean();
+
     const userID = req.user ? req.user._id : null;
-    const isOwner = course.owner._id == req.user?._id
-    res.render('details', {...course, isOwner, userID});
-}); 
+    const isOwner = course.owner._id == req.user?._id;
+
+    const signedUpUsers = course.signUpList.map(user => user.username).join(', ');
+    const alreadySigned = course.signUpList.some(user => user._id == req.user?.id);
+
+
+    res.render('details', { ...course, isOwner, userID, signedUpUsers, alreadySigned });
+});
+
+
+
+router.get('/catalog/:courseID/signUP', async(req, res) => {
+   
+    await courseService.signUP(req.params.courseID, req.user._id);
+    res.redirect(`/courses/catalog/${req.params.courseID}/details`);
+
+    
+
+});
+
+
 
 router.get('/create', isAuth, (req, res) => {
     res.render('create')
