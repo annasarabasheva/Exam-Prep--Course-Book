@@ -9,7 +9,5 @@ routes.use(homeController);
 routes.use('/auth', authController);
 routes.use('/courses', courseController);
 
-routes.all('*', (req, res) => [
-    res.render('404')
-])
+
 module.exports = routes;
